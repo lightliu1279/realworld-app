@@ -119,6 +119,10 @@ export default {
       });
     },
     toggleFollow(type) {
+      if (!this.$store.getters["auth.headerAuth"]) {
+        this.$router.push({ name: "login" });
+        return false
+      }
       let params = {
         username: this.author.username,
         method: type ? "post" : "delete"
@@ -133,6 +137,10 @@ export default {
         });
     },
     toggleFavorited(type) {
+      if (!this.$store.getters["auth.headerAuth"]) {
+        this.$router.push({ name: "login" });
+        return false
+      }
       let params = {
         slug: this.slug,
         method: type ? "post" : "delete"

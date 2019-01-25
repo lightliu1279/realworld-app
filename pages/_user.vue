@@ -14,25 +14,40 @@
             <h4>{{ profile && profile.username }}</h4>
             <p>{{ profile && profile.bio }}</p>
 
-            <button 
-              v-if="profile.username !== user.username"
-              class="btn btn-sm btn-outline-secondary action-btn"
-              @click="toggleFollow((profile && profile.following) ? false : true)"
+            <template v-if="user">
+              <button
+                v-if="profile.username !== user.username"
+                class="btn btn-sm btn-outline-secondary action-btn"
+                @click="toggleFollow((profile && profile.following) ? false : true)"
               >
-              <i class="ion-plus-round"></i>
-              &nbsp;
-              <template> {{ (profile && profile.following) ? 'unfollow' : 'Follow' }}</template>
-              {{ profile && profile.username }}
-            </button>
+                <i class="ion-plus-round"></i>
+                &nbsp;
+                <template> {{ (profile && profile.following) ? 'unfollow' : 'Follow' }}</template>
+                {{ profile && profile.username }}
+              </button>
 
-            <nuxt-link
-              v-else
-              class="btn btn-sm btn-outline-secondary action-btn"
-              :to="{ name: 'settings' }"
-            >
-              <i class="ion-gear-a"></i>
-              &nbsp;Edit Profile Settings
-            </nuxt-link>
+              <nuxt-link
+                v-else
+                class="btn btn-sm btn-outline-secondary action-btn"
+                :to="{ name: 'settings' }"
+              >
+                <i class="ion-gear-a"></i>
+                &nbsp;Edit Profile Settings
+              </nuxt-link>
+            </template>
+
+            <template v-else>
+              <button
+                class="btn btn-sm btn-outline-secondary action-btn"
+                @click="toggleFollow((profile && profile.following) ? false : true)"
+              >
+                <i class="ion-plus-round"></i>
+                &nbsp;
+                <template> {{ (profile && profile.following) ? 'unfollow' : 'Follow' }}</template>
+                {{ profile && profile.username }}
+              </button>
+            </template>
+
           </div>
 
         </div>
@@ -102,7 +117,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.getters['auth/currentUser']
+      return this.$store.getters["auth/currentUser"];
     },
     offsetPage: {
       get() {
@@ -161,19 +176,24 @@ export default {
       });
     },
     toggleFollow(type) {
-      let params = {
-        username: this.profile.username,
-        method: (type) ? 'post' : 'delete'
+      if (!this.$store.getters["auth.headerAuth"]) {
+        this.$router.push({ name: "login" });
+        return false
       }
 
-      this.$store.dispatch('api/toggleFollow', params)
-      .then(res => {
-        this.profile = {...res.profile}
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      let params = {
+        username: this.profile.username,
+        method: type ? "post" : "delete"
+      };
 
+      this.$store
+        .dispatch("api/toggleFollow", params)
+        .then(res => {
+          this.profile = { ...res.profile };
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

@@ -10,16 +10,23 @@
             <nuxt-link to="/login">Have an account?</nuxt-link>
           </p>
 
-          <!-- <ul class="error-messages">
-            <li>That email is already taken</li>
-          </ul> -->
+          <ul
+            class="error-messages"
+            v-show="error"
+          >
+            <li
+              v-for="(n, k) in error"
+              :key="k"
+            >{{ k }} {{ n[0] }}</li>
+          </ul>
 
-          <form>
+          <form @submit.prevent="onSubmit(username, email, password)">
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Your Name"
+                v-model="username"
               >
             </fieldset>
             <fieldset class="form-group">
@@ -27,6 +34,7 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Email"
+                v-model="email"
               >
             </fieldset>
             <fieldset class="form-group">
@@ -34,9 +42,13 @@
                 class="form-control form-control-lg"
                 type="password"
                 placeholder="Password"
+                v-model="password"
               >
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              type="submit"
+            >
               Sign up
             </button>
           </form>
@@ -50,6 +62,32 @@
 
 <script>
 export default {
-  name: 'Register'
-}
+  name: "Register",
+  head() {
+    return {
+      title: "Register - Conduit"
+    };
+  },
+  middleware: ["auth-forbidden"],
+  data() {
+    return {
+      username: null,
+      email: null,
+      password: null,
+      error: null
+    };
+  },
+  methods: {
+    onSubmit(username, email, password) {
+      this.$store
+        .dispatch("auth/register", { username, email, password })
+        .then(() => {
+          this.$router.replace({ name: "index" });
+        })
+        .catch(err => {
+          this.error = err && err.response.data.errors;
+        });
+    }
+  }
+};
 </script>

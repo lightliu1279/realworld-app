@@ -57,6 +57,7 @@ export default {
       title: "Sign in - Conduit"
     };
   },
+  middleware: ["auth-forbidden"],
   data() {
     return {
       email: null,
@@ -72,6 +73,7 @@ export default {
           this.$router.replace({ name: "index" });
         })
         .catch(err => {
+          console.log(err);
           this.error = err && err.response.data.errors;
         });
     }

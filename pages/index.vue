@@ -17,6 +17,7 @@
             <ul class="nav nav-pills outline-active">
               <li class="nav-item">
                 <nuxt-link
+                  v-if="isAuth"
                   class="nav-link"
                   :class="{'active': tab === 'your'}"
                   :to="{ name:`your-feed`}"
@@ -47,6 +48,11 @@
             :key="n.slug"
             :article="n"
           />
+
+           <div
+            v-if="!articles.length"
+            class="article-preview"
+          >No articles are here... yet.</div>
 
           <pagination
             :total="articlesCount"
@@ -90,6 +96,9 @@ export default {
     Pagination
   },
   computed: {
+    isAuth() {
+      return !! this.$store.getters['auth/headerAuth']
+    },
     offsetPage: {
       get() {
         return this.option.offset / this.option.limit + 1;
@@ -163,7 +172,7 @@ export default {
 
 
 <style scoped>
-a.nav-link {
+/* a.nav-link {
   cursor: pointer;
-}
+} */
 </style>

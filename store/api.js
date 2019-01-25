@@ -62,9 +62,6 @@ export const actions = {
     return this.$axios({
       url: `articles`,
       method: 'get',
-      headers: {
-        ...(vuex.getters.isAuth && { Authorization: vuex.getters.isAuth }),
-      },
       params,
     })
       .then(({ data }) => {
@@ -79,9 +76,6 @@ export const actions = {
     return this.$axios({
       url: `articles/${slug}`,
       method: 'get',
-      headers: {
-        ...(vuex.getters.isAuth && { Authorization: vuex.getters.isAuth }),
-      },
     })
       .then(({ data }) => {
         return data;
@@ -98,7 +92,7 @@ export const actions = {
       headers: {
         ...(vuex.getters.isAuth && { Authorization: vuex.getters.isAuth }),
       },
-      data: { article }
+      data: { article },
     })
       .then(({ data }) => {
         return data;
@@ -115,7 +109,7 @@ export const actions = {
       headers: {
         ...(vuex.getters.isAuth && { Authorization: vuex.getters.isAuth }),
       },
-      data: { article }
+      data: { article },
     })
       .then(({ data }) => {
         return data;
@@ -124,7 +118,6 @@ export const actions = {
         return err;
       });
   },
-
 
   deleteArticle(vuex, slug) {
     return this.$axios({
@@ -142,7 +135,6 @@ export const actions = {
       });
   },
 
-
   getComment(vuex, slug) {
     return this.$axios({
       url: `articles/${slug}/comments`,
@@ -159,14 +151,14 @@ export const actions = {
       });
   },
 
-  addComment(vuex, {slug, comment}) {
+  addComment(vuex, { slug, comment }) {
     return this.$axios({
       url: `articles/${slug}/comments`,
       method: 'post',
       headers: {
         ...(vuex.getters.isAuth && { Authorization: vuex.getters.isAuth }),
       },
-      data: { comment }
+      data: { comment },
     })
       .then(({ data }) => {
         return data;
@@ -176,7 +168,7 @@ export const actions = {
       });
   },
 
-  deleteComment(vuex, {slug,id}) {
+  deleteComment(vuex, { slug, id }) {
     return this.$axios({
       url: `articles/${slug}/comments/${id}`,
       method: 'delete',
@@ -197,7 +189,7 @@ export const actions = {
       url: `articles/feed`,
       method: 'get',
       headers: {
-        Authorization: vuex.getters.isAuth,
+        ...(vuex.getters.isAuth && { Authorization: vuex.getters.isAuth }),
       },
       params,
     })
@@ -213,9 +205,6 @@ export const actions = {
     return this.$axios({
       url: `tags`,
       method: 'get',
-      headers: {
-        ...(vuex.getters.isAuth && { Authorization: vuex.getters.isAuth }),
-      },
     })
       .then(({ data }) => {
         return data;
@@ -241,7 +230,7 @@ export const actions = {
       });
   },
 
-  toggleFavorited(vuex, {slug, method}) {
+  toggleFavorited(vuex, { slug, method }) {
     return this.$axios({
       url: `articles/${slug}/favorite`,
       method,
@@ -256,6 +245,4 @@ export const actions = {
         return err;
       });
   },
-
-
 };

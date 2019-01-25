@@ -64,6 +64,17 @@
             @submit-comment="submitComment"
           ></comment-form>
 
+          <p v-else>
+            <nuxt-link
+             :to="{ name:'login' }"
+            >Sign in</nuxt-link>
+            or
+             <nuxt-link
+             :to="{ name:'register' }"
+            >Sign up</nuxt-link>
+            to add comments on this article.
+          </p>
+
           <comment
             v-for="n in comments || []"
             :key="n.id"
@@ -71,7 +82,7 @@
             :image="n.author.image"
             :createdAt="n.createdAt"
             :body="n.body"
-            :currentUser="currentUser.username"
+            :currentUser="currentUser && currentUser.username"
             @delete-comment="deleteComment(n.id)"
           ></comment>
 
@@ -126,10 +137,14 @@ export default {
       return this.$store.getters["auth/currentUser"];
     },
     isAuth() {
-      return !!this.$store.getters["api/isAuth"];
+      return !!this.$store.getters["auth/headerAuth"];
     },
     isCurrentUser() {
-      return this.currentUser.username === this.article.author.username;
+      return (
+        (this.currentUser &&
+          this.currentUser.username === this.article.author.username) ||
+        null
+      );
     }
   },
   methods: {

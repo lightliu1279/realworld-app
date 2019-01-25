@@ -78,6 +78,7 @@ export default {
       title: "New Article - Conduit"
     };
   },
+  middleware: ['auth-require'],
   asyncData({ $axios, params, store }) {
     const slug = params.slug;
     let data = {
