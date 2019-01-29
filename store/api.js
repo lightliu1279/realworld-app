@@ -94,12 +94,12 @@ export const actions = {
       },
       data: { article },
     })
-      .then(({ data }) => {
-        return data;
-      })
-      .catch(err => {
-        return err;
-      });
+      // .then(({ data }) => {
+      //   return data;
+      // })
+      // .catch(err => {
+      //   return err;
+      // });
   },
 
   updateArticle(vuex, article) {
@@ -111,12 +111,12 @@ export const actions = {
       },
       data: { article },
     })
-      .then(({ data }) => {
-        return data;
-      })
-      .catch(err => {
-        return err;
-      });
+      // .then(({ data }) => {
+      //   return data;
+      // })
+      // .catch(err => {
+      //   return err;
+      // });
   },
 
   deleteArticle(vuex, slug) {

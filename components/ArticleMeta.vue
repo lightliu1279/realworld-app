@@ -4,7 +4,9 @@
       class="author"
       :to="{ name: 'user', params:{user:`@${author && author.username || ''}`} }"
     >
-      <img :src="author.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'" />
+      <!-- <img :src="author.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'" /> -->
+      <img :src="author.image || ''" />
+
     </nuxt-link>
     <div class="info">
       <nuxt-link
@@ -21,6 +23,7 @@
       <button
         class="btn btn-sm btn-outline-secondary"
         @click="toggleFollow((following) ? false : true)"
+        :disabled="toggle_following"
       >
         <i class="ion-plus-round"></i>
         &nbsp;
@@ -31,6 +34,7 @@
         class="btn btn-sm"
         :class="{'btn-primary': favorited, 'btn-outline-primary': !favorited}"
         @click="toggleFavorited((favorited) ? false : true)"
+        :disabled="toggle_favorited"
       >
         <i class="ion-heart"></i>
         &nbsp;
@@ -64,6 +68,7 @@
         class="btn btn-sm pull-xs-right"
         :class="{'btn-primary': favorited, 'btn-outline-primary': !favorited}"
         @click="toggleFavorited((favorited) ? false : true)"
+        :disabled="toggle_favorited"
       >
         <i class="ion-heart"></i> {{ favoritesCount }}
       </button>
@@ -107,6 +112,12 @@ export default {
       default: false
     }
   },
+  data() {
+    return {
+      toggle_following: false,
+      toggle_favorited: false,
+    }
+  },
   computed: {
     isAuth() {
       return !!this.$store.getters["api/isAuth"];
@@ -127,9 +138,11 @@ export default {
         username: this.author.username,
         method: type ? "post" : "delete"
       };
+      this.toggle_following = true
       this.$store
         .dispatch("api/toggleFollow", params)
         .then(res => {
+          this.toggle_following = false
           this.$emit("update:following", res.profile.following);
         })
         .catch(err => {
@@ -145,9 +158,11 @@ export default {
         slug: this.slug,
         method: type ? "post" : "delete"
       };
+      this.toggle_favorited = true
       this.$store
         .dispatch("api/toggleFavorited", params)
         .then(res => {
+          this.toggle_favorited = false
           this.$emit("update:favorited", res.article.favorited);
           this.$emit("update:favoritesCount", res.article.favoritesCount);
         })

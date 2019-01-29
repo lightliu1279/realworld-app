@@ -16,7 +16,8 @@
         :src="image"
         class="comment-author-img"
       />
-      <button class="btn btn-sm btn-primary">
+      <button class="btn btn-sm btn-primary"
+      :disabled="!value$ || sending">
         Post Comment
       </button>
     </div>
@@ -34,20 +35,21 @@ export default {
     image: {
       type: String,
       default: "https://static.productionready.io/images/smiley-cyrus.jpg"
+    },
+    sending: {
+      type: Boolean,
+      default: false,
     }
   },
   computed: {
     value$: {
-      get () {
-        return this.value
+      get() {
+        return this.value;
       },
-      set (val) {
-        this.$emit('input', val)
+      set(val) {
+        this.$emit("input", val.trim());
       }
-    },
-    // submitable () {
-    //   return this.value.trim().length
-    // }
+    }
   }
 };
 </script>
