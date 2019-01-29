@@ -7,15 +7,10 @@
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">Your Settings</h1>
 
-          <ul
-            class="error-messages"
+          <error-message
             v-show="error"
-          >
-            <li
-              v-for="(n, k) in error"
-              :key="k"
-            >{{ k }} {{ n[0] }}</li>
-          </ul>
+            :errors="error"
+          ></error-message>
 
           <form>
             <fieldset>
@@ -86,18 +81,27 @@
 </template>
 
 <script>
+import ErrorMessage from '@/components/ErrorMessage'
+
 export default {
   name: "Settings",
+  components: {
+    ErrorMessage
+  },
   head() {
     return {
       title: "Setting - Conduit"
     };
   },
   middleware: ['auth-require'],
+  data() {
+    return {
+      sending: false
+    }
+  },
   async asyncData({ $axios, params, store }) {
     let jwt = store.getters["auth/headerAuth"];
     return await store.dispatch("auth/getUser").then(res => {
-      console.log(res);
       let { email, bio, image, username, password } = res.user;
 
       return {

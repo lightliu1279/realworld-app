@@ -10,15 +10,10 @@
             <nuxt-link to="/login">Have an account?</nuxt-link>
           </p>
 
-          <ul
-            class="error-messages"
+          <error-message
             v-show="error"
-          >
-            <li
-              v-for="(n, k) in error"
-              :key="k"
-            >{{ k }} {{ n[0] }}</li>
-          </ul>
+            :errors="error"
+          ></error-message>
 
           <form @submit.prevent="onSubmit(username, email, password)">
             <fieldset class="form-group">
@@ -61,8 +56,12 @@
 </template>
 
 <script>
+import ErrorMessage from '@/components/ErrorMessage'
 export default {
   name: "Register",
+  components: {
+    ErrorMessage
+  },
   head() {
     return {
       title: "Register - Conduit"
