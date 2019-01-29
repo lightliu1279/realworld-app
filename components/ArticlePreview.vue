@@ -14,17 +14,24 @@
     >
       <h1>{{ article.title }}</h1>
       <p>{{ article.description }}</p>
-      <span>Read more...</span>
+      <div class="row">
+        <div class="col-xs-12 col-md-6">
+          <span>Read more...</span>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <ul class="tag-list">
+            <li
+              class="tag-default tag-pill tag-outline"
+              v-for="(tag, idx) of article.tagList"
+              :key="idx"
+            >
+              <span v-text="tag" />
+            </li>
+          </ul>
+        </div>
 
-      <ul class="tag-list">
-        <li
-          class="tag-default tag-pill tag-outline"
-          v-for="(tag, idx) of article.tagList"
-          :key="idx"
-        >
-          <span v-text="tag" />
-        </li>
-      </ul>
+      </div>
+
     </nuxt-link>
 
   </div>
