@@ -100,6 +100,10 @@ import CommentForm from "@/components/CommentForm";
 
 import marked from "marked";
 
+marked.setOptions({
+  sanitize: true
+})
+
 export default {
   name: "Article",
   components: {
