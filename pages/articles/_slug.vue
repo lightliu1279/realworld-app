@@ -23,7 +23,7 @@
     <div class="container page">
 
       <div class="row article-content">
-        <div class="col-md-12">
+        <div class="col-xs-12 col-md-12">
           <div v-html="parseMarkdown(article.body)"></div>
           <!-- <h2 id="introducing-ionic">Introducing RealWorld.</h2>
           <p>It's a great solution for learning how other frameworks work.</p> -->
@@ -61,17 +61,15 @@
             v-if="isAuth"
             v-model="commentVal"
             :image="currentUser.image"
+            :sending="comment_add"
             @submit-comment="submitComment"
-          ></comment-form>
+          >
+          </comment-form>
 
           <p v-else>
-            <nuxt-link
-             :to="{ name:'login' }"
-            >Sign in</nuxt-link>
+            <nuxt-link :to="{ name:'login' }">Sign in</nuxt-link>
             or
-             <nuxt-link
-             :to="{ name:'register' }"
-            >Sign up</nuxt-link>
+            <nuxt-link :to="{ name:'register' }">Sign up</nuxt-link>
             to add comments on this article.
           </p>
 
@@ -99,6 +97,7 @@
 import ArticleMeta from "@/components/ArticleMeta";
 import Comment from "@/components/Comment";
 import CommentForm from "@/components/CommentForm";
+
 import marked from "marked";
 
 export default {
@@ -115,7 +114,9 @@ export default {
   },
   data() {
     return {
-      commentVal: ""
+      commentVal: "",
+      error: null,
+      comment_add: false,
     };
   },
   asyncData({ $axios, params, store }) {
@@ -170,18 +171,25 @@ export default {
       let params = {
         slug: this.$route.params.slug,
         comment: {
-          body: this.commentVal
+          body: this.commentVal.trim()
         }
       };
+
+      if (!params.comment.body) {
+        return false;
+      }
+
+      this.comment_add = true
 
       this.$store
         .dispatch("api/addComment", params)
         .then(res => {
+          this.comment_add = false
           this.commentVal = "";
           this.comments.unshift({ ...res.comment });
         })
         .catch(err => {
-          console.log(err);
+          this.error = err && err.response.data.errors;
         });
     }
   }
