@@ -52,3 +52,10 @@ export default {
   }
 };
 </script>
+
+<style lang="css" scoped>
+  .article-preview .preview-link .tag-list {
+    max-width: 100%;
+  }
+</style>
+
