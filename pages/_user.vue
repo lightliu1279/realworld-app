@@ -176,7 +176,7 @@ export default {
       });
     },
     toggleFollow(type) {
-      if (!this.$store.getters["auth.headerAuth"]) {
+      if (!this.$store.getters["auth/headerAuth"]) {
         this.$router.push({ name: "login" });
         return false
       }
