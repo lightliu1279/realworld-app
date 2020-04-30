@@ -80,7 +80,7 @@
 
 <script>
 export default {
-  name: "ArticleMeta",
+  name: 'ArticleMeta',
   props: {
     author: {
       type: Object,
@@ -93,15 +93,15 @@ export default {
     },
     createdAt: {
       type: String,
-      default: ""
+      default: ''
     },
     actions: {
       type: String,
-      defult: ""
+      defult: ''
     },
     slug: {
       type: String,
-      defult: ""
+      defult: ''
     },
     following: {
       type: Boolean,
@@ -116,55 +116,55 @@ export default {
     return {
       toggle_following: false,
       toggle_favorited: false,
-    }
+    };
   },
   computed: {
     isAuth() {
-      return !!this.$store.getters["api/isAuth"];
+      return !!this.$store.getters['api/isAuth'];
     }
   },
   methods: {
     deleteArticle() {
-      this.$store.dispatch("api/deleteArticle", this.slug).then(() => {
-        this.$router.push({ name: "index" });
+      this.$store.dispatch('api/deleteArticle', this.slug).then(() => {
+        this.$router.push({ name: 'index' });
       });
     },
     toggleFollow(type) {
-      if (!this.$store.getters["auth/headerAuth"]) {
-        this.$router.push({ name: "login" });
-        return false
+      if (!this.$store.getters['auth/headerAuth']) {
+        this.$router.push({ name: 'login' });
+        return false;
       }
       let params = {
         username: this.author.username,
-        method: type ? "post" : "delete"
+        method: type ? 'post' : 'delete'
       };
-      this.toggle_following = true
+      this.toggle_following = true;
       this.$store
-        .dispatch("api/toggleFollow", params)
+        .dispatch('api/toggleFollow', params)
         .then(res => {
-          this.toggle_following = false
-          this.$emit("update:following", res.profile.following);
+          this.toggle_following = false;
+          this.$emit('update:following', res.profile.following);
         })
         .catch(err => {
           console.log(err);
         });
     },
     toggleFavorited(type) {
-      if (!this.$store.getters["auth/headerAuth"]) {
-        this.$router.push({ name: "login" });
-        return false
+      if (!this.$store.getters['auth/headerAuth']) {
+        this.$router.push({ name: 'login' });
+        return false;
       }
       let params = {
         slug: this.slug,
-        method: type ? "post" : "delete"
+        method: type ? 'post' : 'delete'
       };
-      this.toggle_favorited = true
+      this.toggle_favorited = true;
       this.$store
-        .dispatch("api/toggleFavorited", params)
+        .dispatch('api/toggleFavorited', params)
         .then(res => {
-          this.toggle_favorited = false
-          this.$emit("update:favorited", res.article.favorited);
-          this.$emit("update:favoritesCount", res.article.favoritesCount);
+          this.toggle_favorited = false;
+          this.$emit('update:favorited', res.article.favorited);
+          this.$emit('update:favoritesCount', res.article.favoritesCount);
         })
         .catch(err => {
           console.log(err);
@@ -176,7 +176,7 @@ export default {
         params: {
           slug: this.slug
         }
-      })
+      });
     }
   }
 };

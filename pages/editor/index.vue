@@ -86,29 +86,29 @@
 </template>
 
 <script>
-import ErrorMessage from "@/components/ErrorMessage";
+import ErrorMessage from '@/components/ErrorMessage';
 
 export default {
-  name: "Editor",
+  name: 'Editor',
   components: {
     ErrorMessage
   },
   head() {
     return {
-      title: "New Article - Conduit"
+      title: 'New Article - Conduit'
     };
   },
-  middleware: ["auth-require"],
-  asyncData({ $axios, params, store }) {
+  middleware: ['auth-require'],
+  asyncData({ params, store }) {
     const slug = params.slug;
     let data = {
       article: {
-        title: "",
-        description: "",
-        body: "",
+        title: '',
+        description: '',
+        body: '',
         tagList: []
       },
-      tagInput: "",
+      tagInput: '',
       sending: false,
       error: null
     };
@@ -116,7 +116,7 @@ export default {
       return data;
     }
 
-    return store.dispatch("api/getArticleSlug", slug).then(res => {
+    return store.dispatch('api/getArticleSlug', slug).then(res => {
       return { ...data, article: res.article };
     });
   },
@@ -136,23 +136,23 @@ export default {
     },
     onPublish() {
       this.sending = true;
-      let url = "api/createArticle";
+      let url = 'api/createArticle';
       if (this.article.slug) {
-        url = "api/updateArticle";
+        url = 'api/updateArticle';
       }
 
       this.$store
         .dispatch(url, this.article)
-        .then(res => {
+        .then(() => {
           this.sending = false;
 
           if (this.article.slug) {
             this.$router.push({
-              name: "articles-slug",
+              name: 'articles-slug',
               params: { slug: this.article.slug }
             });
           } else {
-            this.$router.push({ name: "index" });
+            this.$router.push({ name: 'index' });
           }
         })
         .catch(err => {

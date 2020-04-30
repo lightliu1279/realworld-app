@@ -38,10 +38,10 @@
 </template>
 
 <script>
-import ArticleMeta from "./ArticleMeta";
+import ArticleMeta from './ArticleMeta';
 
 export default {
-  name: "ArticlePreview",
+  name: 'ArticlePreview',
   components: {
     ArticleMeta
   },

@@ -81,27 +81,28 @@
 </template>
 
 <script>
-import ErrorMessage from '@/components/ErrorMessage'
+import ErrorMessage from '@/components/ErrorMessage';
 
 export default {
-  name: "Settings",
+  name: 'Settings',
   components: {
     ErrorMessage
   },
   head() {
     return {
-      title: "Setting - Conduit"
+      title: 'Setting - Conduit'
     };
   },
   middleware: ['auth-require'],
   data() {
     return {
       sending: false
-    }
+    };
   },
-  async asyncData({ $axios, params, store }) {
-    let jwt = store.getters["auth/headerAuth"];
-    return await store.dispatch("auth/getUser").then(res => {
+  // async asyncData({ $axios, params, store }) {
+  async asyncData({ store }) {
+    // let jwt = store.getters["auth/headerAuth"]
+    return await store.dispatch('auth/getUser').then(res => {
       let { email, bio, image, username, password } = res.user;
 
       return {
@@ -118,27 +119,27 @@ export default {
   },
   methods: {
     updateUser() {
-      let profile = Object.keys(this.user).reduce((rst, cur) => {
-        if (this.user[cur]) {
-          rst = {
-            ...rst,
-            [cur]: this.user[cur]
-          };
-        }
-        return rst;
-      }, {});
+      // let profile = Object.keys(this.user).reduce((rst, cur) => {
+      //   if (this.user[cur]) {
+      //     rst = {
+      //       ...rst,
+      //       [cur]: this.user[cur]
+      //     }
+      //   }
+      //   return rst
+      // }, {})
       this.$store
-        .dispatch("auth/updateUser", this.user)
-        .then(res => {
-          this.$router.push({ name: "index" });
+        .dispatch('auth/updateUser', this.user)
+        .then(() => {
+          this.$router.push({ name: 'index' });
         })
         .catch(err => {
           this.error = err && err.response.data.errors;
         });
     },
     logout() {
-      this.$store.dispatch("auth/logout").then(() => {
-        this.$router.push({ name: "index" });
+      this.$store.dispatch('auth/logout').then(() => {
+        this.$router.push({ name: 'index' });
       });
     }
   }

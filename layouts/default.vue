@@ -96,10 +96,10 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 export default {
-  name: "Layout",
+  name: 'Layout',
   computed: {
     route_name() {
       return this.$route.name;

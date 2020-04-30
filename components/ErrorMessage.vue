@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: "ErrorMessages",
+  name: 'ErrorMessages',
   props: {
     errors: {
         default: {}

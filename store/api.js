@@ -1,5 +1,3 @@
-import { promised } from 'q';
-
 export const state = () => ({
   profile_user: null,
 });
@@ -14,9 +12,9 @@ export const actions = {
   // api Constructor
   request(vuex, { promise, success, fail }) {
     return promise
-      .then(res => {
+      .then(() => {
         if (typeof success === 'function') {
-          resolve(success);
+          Promise.resolve(success);
         } else {
           return Promise.resolve(success);
         }
@@ -60,7 +58,7 @@ export const actions = {
 
   getArticles(vuex, params) {
     return this.$axios({
-      url: `articles`,
+      url: 'articles',
       method: 'get',
       params,
     })
@@ -87,13 +85,13 @@ export const actions = {
 
   createArticle(vuex, article) {
     return this.$axios({
-      url: `articles`,
+      url: 'articles',
       method: 'post',
       headers: {
         ...(vuex.getters.isAuth && { Authorization: vuex.getters.isAuth }),
       },
       data: { article },
-    })
+    });
       // .then(({ data }) => {
       //   return data;
       // })
@@ -110,7 +108,7 @@ export const actions = {
         ...(vuex.getters.isAuth && { Authorization: vuex.getters.isAuth }),
       },
       data: { article },
-    })
+    });
       // .then(({ data }) => {
       //   return data;
       // })
@@ -186,7 +184,7 @@ export const actions = {
 
   getArticlesFeed(vuex, params) {
     return this.$axios({
-      url: `articles/feed`,
+      url: 'articles/feed',
       method: 'get',
       headers: {
         ...(vuex.getters.isAuth && { Authorization: vuex.getters.isAuth }),
@@ -201,9 +199,9 @@ export const actions = {
       });
   },
 
-  getTags(vuex) {
+  getTags() {
     return this.$axios({
-      url: `tags`,
+      url: 'tags',
       method: 'get',
     })
       .then(({ data }) => {

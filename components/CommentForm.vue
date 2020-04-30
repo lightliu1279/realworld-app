@@ -26,15 +26,15 @@
 
 <script>
 export default {
-  name: "CommentForm",
+  name: 'CommentForm',
   props: {
     value: {
       type: String,
-      default: ""
+      default: ''
     },
     image: {
       type: String,
-      default: "https://static.productionready.io/images/smiley-cyrus.jpg"
+      default: 'https://static.productionready.io/images/smiley-cyrus.jpg'
     },
     sending: {
       type: Boolean,
@@ -47,7 +47,7 @@ export default {
         return this.value;
       },
       set(val) {
-        this.$emit("input", val.trim());
+        this.$emit('input', val.trim());
       }
     }
   }

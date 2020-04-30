@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav v-if="pages">
     <no-ssr>
       <paginate
         :page-count="pages"
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-const Paginate = process.client ? require('vuejs-paginate') : undefined
+const Paginate = process.client ? require('vuejs-paginate') : undefined;
 
 export default {
   name: 'Pagination',
@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-    }
+    };
   },
   computed: {
     pages() {
@@ -54,5 +54,5 @@ export default {
       this.$emit('update:page', page);
     }
   }
-}
+};
 </script>

@@ -1,4 +1,4 @@
 <script>
-import Index from '~/pages/index'
-export default { ...Index, middleware: ['auth-require'] }
+import Index from '~/pages/index';
+export default { ...Index, middleware: ['auth-require'] };
 </script>

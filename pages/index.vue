@@ -83,11 +83,11 @@
 </template>
 
 <script>
-import ArticlePreview from "@/components/ArticlePreview";
-import Pagination from "@/components/Pagination";
+import ArticlePreview from '@/components/ArticlePreview';
+import Pagination from '@/components/Pagination';
 
 export default {
-  name: "Home",
+  name: 'Home',
   data() {
     return {};
   },
@@ -97,7 +97,7 @@ export default {
   },
   computed: {
     isAuth() {
-      return !! this.$store.getters['auth/headerAuth']
+      return !! this.$store.getters['auth/headerAuth'];
     },
     offsetPage: {
       get() {
@@ -110,29 +110,29 @@ export default {
   },
   head() {
     return {
-      title: "Home - Conduit"
+      title: 'Home - Conduit'
     };
   },
   asyncData({ store, params, route }) {
     let tag = params.tagname || null;
-    let tab = "global";
-    let api_url = "api/getArticles";
+    let tab = 'global';
+    let api_url = 'api/getArticles';
     let option = {
       limit: 10,
       offset: 0,
       ...(tag && { tag: tag })
     };
 
-    if (route.name === "your-feed") {
-      tab = "your";
-      api_url = "api/getArticlesFeed";
+    if (route.name === 'your-feed') {
+      tab = 'your';
+      api_url = 'api/getArticlesFeed';
     } else if (tag) {
-      tab = "tag";
+      tab = 'tag';
     }
 
     return Promise.all([
       store.dispatch(api_url, option),
-      store.dispatch("api/getTags")
+      store.dispatch('api/getTags')
     ]).then(([article, tags]) => {
       return {
         ...article,
@@ -146,7 +146,7 @@ export default {
     getNextPage(page) {
       let { limit } = this.option;
       this.option.offset = (page - 1) * limit;
-      this.$store.dispatch("api/getArticles", this.option).then(res => {
+      this.$store.dispatch('api/getArticles', this.option).then(res => {
         this.articles = [...res.articles];
       });
     },

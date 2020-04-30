@@ -94,18 +94,18 @@
 </template>
 
 <script>
-import ArticleMeta from "@/components/ArticleMeta";
-import Comment from "@/components/Comment";
-import CommentForm from "@/components/CommentForm";
+import ArticleMeta from '@/components/ArticleMeta';
+import Comment from '@/components/Comment';
+import CommentForm from '@/components/CommentForm';
 
-import marked from "marked";
+import marked from 'marked';
 
 marked.setOptions({
   sanitize: true
-})
+});
 
 export default {
-  name: "Article",
+  name: 'Article',
   components: {
     ArticleMeta,
     Comment,
@@ -113,36 +113,36 @@ export default {
   },
   head() {
     return {
-      title: "Article - Conduit"
+      title: 'Article - Conduit'
     };
   },
   data() {
     return {
-      commentVal: "",
+      commentVal: '',
       error: null,
       comment_add: false,
     };
   },
-  asyncData({ $axios, params, store }) {
+  asyncData({ params, store }) {
     const slug = params.slug;
 
     return Promise.all([
-      store.dispatch("api/getArticleSlug", slug),
-      store.dispatch("api/getComment", slug)
+      store.dispatch('api/getArticleSlug', slug),
+      store.dispatch('api/getComment', slug)
     ]).then(([article, comment]) => {
       return { ...article, ...comment };
     });
 
-    return store.dispatch("api/getArticleSlug", slug).then(res => {
-      return res.article;
-    });
+    // return store.dispatch("api/getArticleSlug", slug).then(res => {
+    //   return res.articlel
+    // })
   },
   computed: {
     currentUser() {
-      return this.$store.getters["auth/currentUser"];
+      return this.$store.getters['auth/currentUser'];
     },
     isAuth() {
-      return !!this.$store.getters["auth/headerAuth"];
+      return !!this.$store.getters['auth/headerAuth'];
     },
     isCurrentUser() {
       return (
@@ -161,7 +161,7 @@ export default {
         slug: this.$route.params.slug,
         id
       };
-      this.$store.dispatch("api/deleteComment", params).then(res => {
+      this.$store.dispatch('api/deleteComment', params).then(() => {
         let targetIdx = this.comments.findIndex(n => {
           return n.id === id;
         });
@@ -183,13 +183,13 @@ export default {
         return false;
       }
 
-      this.comment_add = true
+      this.comment_add = true;
 
       this.$store
-        .dispatch("api/addComment", params)
+        .dispatch('api/addComment', params)
         .then(res => {
-          this.comment_add = false
-          this.commentVal = "";
+          this.comment_add = false;
+          this.commentVal = '';
           this.comments.unshift({ ...res.comment });
         })
         .catch(err => {

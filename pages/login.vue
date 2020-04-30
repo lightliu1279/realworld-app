@@ -45,18 +45,18 @@
 </template>
 
 <script>
-import ErrorMessage from '@/components/ErrorMessage'
+import ErrorMessage from '@/components/ErrorMessage';
 export default {
-  name: "Login",
+  name: 'Login',
   components: {
     ErrorMessage
   },
   head() {
     return {
-      title: "Sign in - Conduit"
+      title: 'Sign in - Conduit'
     };
   },
-  middleware: ["auth-forbidden"],
+  middleware: ['auth-forbidden'],
   data() {
     return {
       email: null,
@@ -67,9 +67,9 @@ export default {
   methods: {
     onSubmit(email, password) {
       this.$store
-        .dispatch("auth/login", { email, password })
+        .dispatch('auth/login', { email, password })
         .then(() => {
-          this.$router.replace({ name: "index" });
+          this.$router.replace({ name: 'index' });
         })
         .catch(err => {
           console.log(err);

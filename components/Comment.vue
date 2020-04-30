@@ -33,27 +33,27 @@
 
 <script>
 export default {
-  name: "Comment",
+  name: 'Comment',
   props: {
     username: {
       type: String,
-      default: ""
+      default: ''
     },
     image: {
       type: String,
-      default: ""
+      default: ''
     },
     body: {
       type: String,
-      default: ""
+      default: ''
     },
     createdAt: {
       type: String,
-      default: ""
+      default: ''
     },
     currentUser: {
       type: String,
-      default: ""
+      default: ''
     }
   }
 };

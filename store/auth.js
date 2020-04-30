@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import { promised } from 'q';
 
 export const state = () => ({
   user: null,
@@ -102,11 +101,11 @@ export const actions = {
     })
       .then(({ data }) => {
         // vuex.commit('setUser', data.user);
-        return Promise.resolve(data) ;
+        return Promise.resolve(data); 
       })
       .catch(err => {
         // return err
-        return Promise.reject(err) 
+        return Promise.reject(err); 
       });
   },
 
@@ -118,18 +117,18 @@ export const actions = {
   checkAuthentication(vuex, req) {
     if (req && req.headers.cookie) {
       const token = this.$cookies.get('jwt');
-      const jwtpayload = jwt.decode(token)
+      // const jwtpayload = jwt.decode(token)
       // console.log(jwtpayload)
       vuex.commit('setAuth', token);
       vuex.commit('setUser', jwt.decode(token));
     }else{
-      vuex.dispatch('logout')
+      vuex.dispatch('logout');
     }
   },
-  logout(vuex, req) {
+  logout(vuex) {
     return new Promise(resolve => {
       this.$cookies.remove('jwt');
-      vuex.commit('logout')
+      vuex.commit('logout');
       resolve();
     });
   },

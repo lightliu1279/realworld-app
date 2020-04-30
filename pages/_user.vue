@@ -101,11 +101,11 @@
 </template>
 
 <script>
-import ArticlePreview from "@/components/ArticlePreview";
-import Pagination from "@/components/Pagination";
+import ArticlePreview from '@/components/ArticlePreview';
+import Pagination from '@/components/Pagination';
 
 export default {
-  name: "User",
+  name: 'User',
   components: {
     ArticlePreview,
     Pagination
@@ -117,7 +117,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.getters["auth/currentUser"];
+      return this.$store.getters['auth/currentUser'];
     },
     offsetPage: {
       get() {
@@ -128,18 +128,18 @@ export default {
       }
     }
   },
-  asyncData({ $axios, params, store }) {
-    const username = params.user.replace("@", "");
+  asyncData({ params, store }) {
+    const username = params.user.replace('@', '');
     let option = {
       limit: 10,
       offset: 0,
       author: username
     };
-    let tab = "my";
+    let tab = 'my';
 
     return Promise.all([
-      store.dispatch("api/getProfile", username),
-      store.dispatch("api/getArticles", option)
+      store.dispatch('api/getProfile', username),
+      store.dispatch('api/getArticles', option)
     ]).then(([profile, articles]) => {
       return { ...profile, ...articles, option, tab };
     });
@@ -150,7 +150,7 @@ export default {
 
       this.option.offset = (page - 1) * limit;
 
-      this.$store.dispatch("api/getArticles", this.option).then(res => {
+      this.$store.dispatch('api/getArticles', this.option).then(res => {
         this.articles = [...res.articles];
       });
     },
@@ -162,32 +162,32 @@ export default {
       };
 
       switch (type) {
-        case "my":
+        case 'my':
           option.author = this.profile.username;
           break;
-        case "fav":
+        case 'fav':
           option.favorited = this.profile.username;
           break;
       }
 
-      this.$store.dispatch("api/getArticles", option).then(res => {
+      this.$store.dispatch('api/getArticles', option).then(res => {
         this.articles = [...res.articles];
         this.option = { ...option };
       });
     },
     toggleFollow(type) {
-      if (!this.$store.getters["auth/headerAuth"]) {
-        this.$router.push({ name: "login" });
-        return false
+      if (!this.$store.getters['auth/headerAuth']) {
+        this.$router.push({ name: 'login' });
+        return false;
       }
 
       let params = {
         username: this.profile.username,
-        method: type ? "post" : "delete"
+        method: type ? 'post' : 'delete'
       };
 
       this.$store
-        .dispatch("api/toggleFollow", params)
+        .dispatch('api/toggleFollow', params)
         .then(res => {
           this.profile = { ...res.profile };
         })
