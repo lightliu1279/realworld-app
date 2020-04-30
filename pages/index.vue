@@ -150,29 +150,7 @@ export default {
         this.articles = [...res.articles];
       });
     },
-    // tabChange(type) {
-    //   this.tab = type;
-    //   let api_url = "api/getArticles";
-    //   this.option.offset = 0;
-
-    //   switch (type) {
-    //     case "your":
-    //       api_url = "api/getArticlesFeed";
-    //       break;
-    //   }
-
-    //   this.$store.dispatch(api_url, this.option).then(res => {
-    //     this.articles = [...res.articles];
-    //     this.articlesCount = res.articlesCount;
-    //   });
-    // }
   }
 };
 </script>
 
-
-<style scoped>
-/* a.nav-link {
-  cursor: pointer;
-} */
-</style>
