@@ -5,6 +5,8 @@
 A best practice of Realworld implementation ServerSide Rendering (SSR) website withNuxt.js in universal mode. 
 Including some common features of social media such as posts, comments, thumb up and member registration.
 
+Demo: https://quiet-sands-50612.herokuapp.com
+
 ## Build Setup
 
 ``` bash
